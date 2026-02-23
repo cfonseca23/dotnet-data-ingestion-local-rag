@@ -74,8 +74,8 @@ Transform your documents into a searchable semantic knowledge base using **Ollam
 ### Ollama Models
 
 ```bash
-ollama pull llama3.2:latest   # Chat & summarization
-ollama pull all-minilm        # Embeddings (384 dimensions)
+ollama pull qwen3:1.7b        # Chat & summarization (structured output support)
+ollama pull nomic-embed-text  # Embeddings (768 dimensions)
 ```
 
 ## Quick Start
@@ -153,10 +153,11 @@ All settings in `src/Configuration/PipelineConfig.cs`:
 public record PipelineConfig
 {
     public string OllamaEndpoint { get; init; } = "http://localhost:11434";
-    public string ChatModel { get; init; } = "llama3.2:latest";
-    public string EmbeddingModel { get; init; } = "all-minilm";
-    public int EmbeddingDimensions { get; init; } = 384;
+    public string ChatModel { get; init; } = "qwen3:1.7b";
+    public string EmbeddingModel { get; init; } = "nomic-embed-text";
+    public int EmbeddingDimensions { get; init; } = 768;
     public int MaxTokensPerChunk { get; init; } = 2000;
+    public int OverlapTokens { get; init; } = 200;
     public TimeSpan HttpTimeout { get; init; } = TimeSpan.FromMinutes(5);
     public int TopResults { get; init; } = 5;
 }
@@ -183,7 +184,7 @@ public record PipelineConfig
 
 ## Known Limitations
 
-- **SummaryEnricher batch mismatch**: LLM may return different count than requested (warning only)
+- **SummaryEnricher batch size**: `BatchSize` is set to 1 to ensure Ollama returns the correct number of summaries per chunk
 - **Cold start latency**: First embedding takes longer as model loads
 
 ## Tech Stack

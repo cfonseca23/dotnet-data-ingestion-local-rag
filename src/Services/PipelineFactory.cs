@@ -88,7 +88,11 @@ public class PipelineFactory : IDisposable
         VectorStoreWriter<string> writer,
         IChatClient chatClient)
     {
-        var enricherOptions = new EnricherOptions(chatClient) { LoggerFactory = _loggerFactory };
+        var enricherOptions = new EnricherOptions(chatClient) 
+        { 
+            LoggerFactory = _loggerFactory,
+            BatchSize = 1 // Ollama returns 1 summary regardless of batch size — process one chunk at a time
+        };
         
         var pipeline = new IngestionPipeline<string>(reader, chunker, writer, loggerFactory: _loggerFactory)
         {

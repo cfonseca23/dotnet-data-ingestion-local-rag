@@ -33,8 +33,8 @@ Key patterns:
 
 ```bash
 # Prerequisites — pull Ollama models and start services
-ollama pull llama3.2:latest
-ollama pull all-minilm
+ollama pull qwen3:1.7b
+ollama pull nomic-embed-text
 ollama serve
 
 # MarkItDown MCP Server (Docker required)
@@ -51,7 +51,7 @@ No test project exists yet. AOT is explicitly disabled (OllamaSharp uses reflect
 
 - Data files (`data/*.md`) are copied to output via `CopyToOutputDirectory: PreserveNewest` in `.csproj`.
 - Separate `HttpClient` instances for chat and embeddings (both target Ollama at `localhost:11434`).
-- Embeddings use `all-minilm` (384 dimensions); chat uses `llama3.2:latest`.
+- Embeddings use `nomic-embed-text` (768 dimensions); chat uses `qwen3:1.7b`.
 - SQLite connection string uses `Pooling=false` to avoid file locks.
 - Console UI uses emojis extensively (✅❌⚠️📁📄🔍👋🗑️) and ASCII box-drawing characters.
 - Paths shown to users must be **relative** (never absolute) — see `ConsoleUI.ShowDirectoryInfo`.
